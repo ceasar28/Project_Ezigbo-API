@@ -1,11 +1,12 @@
 //importing modules
+// https://medium.com/@rachealkuranchie/node-js-authentication-with-postgresql-sequelize-and-express-js-20ae773da4c9
 const { Sequelize, DataTypes } = require("sequelize");
 
 //Database connection with dialect of postgres specifying the database we are using
 //port for my database is 5433
 //database name is discover
 const sequelize = new Sequelize(
-  `postgres://postgres:123456@localhost:5433/discover`,
+  `postgres://postgres:1998born@localhost:5432/ezigbo`,
   { dialect: "postgres" }
 );
 
@@ -19,12 +20,21 @@ sequelize
     console.log(err);
   });
 
-const db = {};
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// Importing models
+const UserModel = require("./UserModel");
+const ProductModel = require("./ProductModel");
 
-//connecting to model
-db.users = require("./userModel")(sequelize, DataTypes);
+// Define models
+const User = UserModel(sequelize, Sequelize);
+const Product = ProductModel(sequelize, Sequelize);
 
-//exporting the module
-module.exports = db;
+// Define associations
+User.hasMany(Product, { foreignKey: "manufacturerId" });
+Product.belongsTo(User, { foreignKey: "manufacturerId" });
+
+// Export the Sequelize instance and models
+module.exports = {
+  sequelize,
+  User,
+  Product,
+};
