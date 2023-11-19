@@ -36,12 +36,15 @@ const signup = async (req, res) => {
       console.log("user", JSON.stringify(user, null, 2));
       console.log(token);
       //send users details
-      return res.status(201).send(user);
-    } else {
-      return res.status(409).send("Details are not correct");
+      return res
+        .status(201)
+        .json({ user, message: "Account created", status: 201 });
     }
   } catch (error) {
     console.log(error);
+    res
+      .status(400)
+      .json({ message: "there was an error try again", status: 400 });
   }
 };
 
@@ -76,12 +79,14 @@ const login = async (req, res) => {
         console.log("user", JSON.stringify(user, null, 2));
         console.log(token);
         //send user data
-        return res.status(201).send(user);
+        return res
+          .status(201)
+          .json({ user, message: "login Successful", status: 201 });
       } else {
-        return res.status(401).send("Authentication failed");
+        return res.status(401).json({ message: "email or password wrong" });
       }
     } else {
-      return res.status(401).send("Authentication failed");
+      return res.status(401).json({ message: "email or password wrong" });
     }
   } catch (error) {
     console.log(error);

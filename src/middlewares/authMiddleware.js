@@ -16,7 +16,9 @@ const saveUser = async (req, res, next) => {
     });
     //if username exist in the database respond with a status of 409
     if (username) {
-      return res.json(409).send("name already taken");
+      return res
+        .status(409)
+        .json({ message: "name already taken", status: 409 });
     }
 
     //checking if email already exist
@@ -28,7 +30,9 @@ const saveUser = async (req, res, next) => {
 
     //if email exist in the database respond with a status of 409
     if (emailcheck) {
-      return res.json(409).send("Authentication failed");
+      return res
+        .status(409)
+        .json({ message: "email already taken", status: 409 });
     }
 
     next();

@@ -40,10 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
     },
-    { timestamps: true },
-    {
-      tableName: "User", // Explicitly specify the table name
-    }
+    { timestamps: true }
   );
 
   User.associate = (models) => {
